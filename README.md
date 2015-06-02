@@ -20,3 +20,7 @@ import socket
 import re
 
 no trigger or alias support yet, but it should be trivial to snoop on the queues.
+
+Only tested on debian linux. 
+
+
