@@ -16,7 +16,7 @@ class AnsiColorText(Text):
   """
   foreground_colors = {
       'bright' : {
-                  '30' : 'Black',
+                  '30' : 'Grey',
                   '31' : 'Red',
                   '32' : 'Green',
                   '33' : 'Brown',

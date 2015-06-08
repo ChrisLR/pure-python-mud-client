@@ -39,7 +39,7 @@ class Controller(object):
             self.periodicCall()
         except AssertionError:
             pass
-            
+                          
 
 
     def periodicCall(self):
@@ -100,7 +100,7 @@ class Controller(object):
                     data = sock.recv(4096)
                     if not data :
                         print '\nDisconnected from server'
-                        self.quit()
+                        self.socketThread()
                     else :
                         self.readQueue.put(data)
 
