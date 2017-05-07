@@ -1,28 +1,25 @@
-from Tkinter import *
-from ttk import *
-from ansicolortext import AnsiColorText as ansi
+from tkinter import *
+from tkinter.ttk import *
+from ansicolortext import AnsiColorText
 
 
 class Connector(Toplevel):
-     def __init__(self, parent):
-        Toplevel.__init__(self, parent)   
+    def __init__(self, parent):
+        Toplevel.__init__(self, parent)
         self.title('Connect to MUD')
         Label(self, text="Address").grid(row=0)
         Label(self, text="Port").grid(row=1)
-        e1 = Entry(self)
-        e2 = Entry(self)
-        e1.grid(row=0, column=1)
-        e2.grid(row=1, column=1)
-        e1.insert(10,"localhost")
-        e2.insert(10,"4004")
-        
-        button = Button(self, text='Connect')
-        button.grid(row=3, column=1, sticky=W, pady=4)
-        
-        self.e1 = e1
-        self.e2 = e2
-        self.button = button
-        
+        self.entry_1 = Entry(self)
+        self.entry_2 = Entry(self)
+        self.entry_1.grid(row=0, column=1)
+        self.entry_2.grid(row=1, column=1)
+        self.entry_1.insert(10, "localhost")
+        self.entry_2.insert(10, "4004")
+
+        self.button = Button(self, text='Connect')
+        self.button.grid(row=3, column=1, sticky=W, pady=4)
+
+
 class View(Toplevel):
     def __init__(self, parent):
         Toplevel.__init__(self, parent)
@@ -30,31 +27,33 @@ class View(Toplevel):
         self.geometry("1280x768")
         self.Tabs = _Tabs(self)
 
+
 class _Tabs(Notebook):
     def __init__(self, parent):
         Notebook.__init__(self, parent)
         self.parent = parent
-        self.initUI()
+        self.tab1 = None
+        self.initialize_ui()
 
-    def initUI(self): 
-        tab1 = _Tab1(self)
-        self.tab1 = tab1
-        self.add(tab1, text = "Text")
+    def initialize_ui(self):
+        self.tab1 = _Tab1(self)
+        self.add(self.tab1, text="Text")
         self.pack(fill=BOTH, expand=1)
-        
-class  _Tab1(Frame):
-    def __init__(self, parent):
-        Frame.__init__(self, parent)   
-        self.parent = parent
-        self.initUI()
 
-    def initUI(self):
-        T = ansi(self)
-        T.pack(fill=BOTH, expand=1)
-        T.configure(state="disabled")
-        E = Entry(self)
-        E.pack(fill=X)
-        E.focus()
-        
-        self.E = E
-        self.T = T
+
+class _Tab1(Frame):
+    def __init__(self, parent):
+        super().__init__()
+        Frame.__init__(self, parent)
+        self.entry = None
+        self.ansi_text = None
+        self.parent = parent
+        self.initialize_ui()
+
+    def initialize_ui(self):
+        self.ansi_text = AnsiColorText(self)
+        self.ansi_text.pack(fill=BOTH, expand=1)
+        self.ansi_text.configure(state="disabled")
+        self.entry = Entry(self)
+        self.entry.pack(fill=X)
+        self.entry.focus()
