@@ -17,54 +17,54 @@ class AnsiColorText(tkinter.Text):
     """
     foreground_colors = {
         'bright': {
-            '30': 'Grey',
-            '31': 'Red',
-            '32': 'Green',
-            '33': 'Brown',
-            '34': 'Blue',
-            '35': 'Purple',
-            '36': 'Cyan',
-            '37': 'White'
+            b'30': 'Grey',
+            b'31': 'Red',
+            b'32': 'Green',
+            b'33': 'Brown',
+            b'34': 'Blue',
+            b'35': 'Purple',
+            b'36': 'Cyan',
+            b'37': 'White'
         },
         'dim': {
-            '30': 'DarkGray',
-            '31': 'LightRed',
-            '32': 'LightGreen',
-            '33': 'Yellow',
-            '34': 'LightBlue',
-            '35': 'Magenta',
-            '36': 'Pink',
-            '37': 'White'
+            b'30': 'DarkGray',
+            b'31': 'LightRed',
+            b'32': 'LightGreen',
+            b'33': 'Yellow',
+            b'34': 'LightBlue',
+            b'35': 'Magenta',
+            b'36': 'Pink',
+            b'37': 'White'
         }
     }
 
     background_colors = {
         'bright': {
-            '40': 'Black',
-            '41': 'Red',
-            '42': 'Green',
-            '43': 'Brown',
-            '44': 'Blue',
-            '45': 'Purple',
-            '46': 'Cyan',
-            '47': 'White'
+            b'40': 'Black',
+            b'41': 'Red',
+            b'42': 'Green',
+            b'43': 'Brown',
+            b'44': 'Blue',
+            b'45': 'Purple',
+            b'46': 'Cyan',
+            b'47': 'White'
         },
         'dim': {
-            '40': 'DarkGray',
-            '41': 'LightRed',
-            '42': 'LightGreen',
-            '43': 'Yellow',
-            '44': 'LightBlue',
-            '45': 'Magenta',
-            '46': 'Pink',
-            '47': 'White'
+            b'40': 'DarkGray',
+            b'41': 'LightRed',
+            b'42': 'LightGreen',
+            b'43': 'Yellow',
+            b'44': 'LightBlue',
+            b'45': 'Magenta',
+            b'46': 'Pink',
+            b'47': 'White'
         }
     }
 
     # define some regexes which will come in handy in filtering
     # out the ansi color codes
-    color_pat = re.compile('\x01?\x1b\[([\d+;]*?)m\x02?')
-    inner_color_pat = re.compile("^(\d+;?)+$")
+    color_pat = re.compile(b"\x01?\x1b\[([\d+;]*?)m\x02?")
+    inner_color_pat = re.compile(b"^(\d+;?)+$")
 
     def __init__(self, parent):
         """
@@ -104,7 +104,7 @@ class AnsiColorText(tkinter.Text):
         segments = AnsiColorText.color_pat.split(text)
         if segments:
             for text in segments:
-                text = text.replace('\r', '')
+                text = text.replace(b'\r', b'')
                 # a segment can be regular text, or it can be a color pattern
                 if AnsiColorText.inner_color_pat.match(text):
                     # if it's a color pattern, check if we already have
@@ -113,7 +113,7 @@ class AnsiColorText(tkinter.Text):
                         # if tag not yet registered,
                         # extract the foreground and background color
                         # and ignore the other things
-                        parts = text.split(";")
+                        parts = text.split(b";")
                         for part in parts:
                             if part in AnsiColorText.foreground_colors[self.bright]:
                                 self.foreground_color = AnsiColorText.foreground_colors[self.bright][part]
@@ -121,13 +121,13 @@ class AnsiColorText(tkinter.Text):
                                 self.background_color = AnsiColorText.background_colors[self.bright][part]
                             else:
                                 for ch in part:
-                                    if ch == '0':
+                                    if ch == b'0':
                                         # reset all attributes
                                         self.reset_to_default_attribs()
-                                    if ch == '1':
+                                    if ch == b'1':
                                         # define bright colors
                                         self.bright = 'bright'
-                                    if ch == '2':
+                                    if ch == b'2':
                                         # define dim colors
                                         self.bright = 'dim'
 
@@ -136,9 +136,9 @@ class AnsiColorText(tkinter.Text):
                                           background=self.background_color)
                     # remember that we switched to this tag
                     self.tag = text
-                elif text == '':
+                elif text == b'':
                     # reset tag to black
-                    self.tag = '30'  # black
+                    self.tag = b'30'  # black
                 else:
                     # no color pattern, insert text with the currently selected
                     # tag

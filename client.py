@@ -48,9 +48,10 @@ class Controller(object):
     def send_command(self, event):
             msg = self.view.Tabs.tab1.entry.get()
             self.view.Tabs.tab1.entry.selection_range(0, tkinter.END)
-            self.socket.send(msg + '\n')
-            self.input_queue.put(msg + '\n')
-        
+            encoded_message = (msg + '\n').encode('utf-8')
+            self.socket.send(encoded_message)
+            self.input_queue.put(encoded_message)
+
     def read_queue(self):
         """
         Handle all the messages currently in the queue (if any).
@@ -82,6 +83,8 @@ class Controller(object):
             data = self.socket.recv(4096)
             if data:
                 self.input_queue.put(data)
+            if not data:
+                self.quit()
         
     def quit(self):
         self.running = False
