@@ -84,6 +84,7 @@ class Controller(object):
             if data:
                 self.input_queue.put(data)
             if not data:
+                self.input_queue.put('Disconnected.\n'.encode('utf-8'))
                 self.quit()
         
     def quit(self):
