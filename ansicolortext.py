@@ -102,6 +102,7 @@ class AnsiColorText(tkinter.Text):
         # first split the text at color codes, stripping stuff like the <ESC>
         # and \[ characters and keeping only the inner "0;23"-like codes
         segments = AnsiColorText.color_pat.split(text)
+        complete_text = b''
         if segments:
             for text in segments:
                 text = text.replace(b'\r', b'')
@@ -143,3 +144,5 @@ class AnsiColorText(tkinter.Text):
                     # no color pattern, insert text with the currently selected
                     # tag
                     self.insert(tkinter.END, text, self.tag)
+                    complete_text += text
+        return str(complete_text, errors='ignore')
