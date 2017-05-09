@@ -1,3 +1,8 @@
+"""
+Original Code from https://www.codeproject.com/Articles/177846/MUD-Client-Essentials
+Original Author: Ryan Hamshire
+Ported to python by: Chris LR
+"""
 from telnet.enum import TelnetEnum
 
 
